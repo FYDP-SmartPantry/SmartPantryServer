@@ -1,5 +1,5 @@
 # datalink
-
+```
    1  sudo apt update
     2  sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools
     3  sudo apt install python3-venv
@@ -80,3 +80,4 @@
    78  sudo systemctl restart nginx
    79  cat datalink.py 
    80  history | tail -n 100
+```
