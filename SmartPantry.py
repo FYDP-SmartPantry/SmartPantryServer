@@ -1,9 +1,13 @@
 from flask import Flask, jsonify
+import os
+
 app = Flask(__name__)
+
 
 @app.route('/')
 def hello_world():
     return 'Hello World'
+
 
 @app.route('/item')
 def display_item():
@@ -11,8 +15,7 @@ def display_item():
         "Item": "Banana",
         "Category": "Fruit",
     }
-    response = []
-    response.append(item)
+    response = [item]
     return jsonify(response)
 
 
