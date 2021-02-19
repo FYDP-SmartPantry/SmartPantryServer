@@ -11,11 +11,16 @@ def hello_world():
 
 @app.route('/item')
 def display_item():
-    item = {
+    item = [{
         "Item": "Banana",
         "Category": "Fruit",
-    }
-    response = [item]
+    }]
+    
+    response = app.response_class(
+        response=json.dumps(item),
+        status=200,
+        mimetype='application/json'
+    )
     return jsonify(response)
 
 
