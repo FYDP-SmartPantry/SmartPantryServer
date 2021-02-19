@@ -17,7 +17,7 @@ def display_item():
     }]
     
     response = app.response_class(
-        response=json.dumps(item),
+        response=json.loads(json.dumps(item)),
         status=200,
         mimetype='application/json'
     )
