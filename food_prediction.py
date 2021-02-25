@@ -85,4 +85,4 @@ def name_rectify(d_result):
 
 
 if __name__ == "__main__":
-    food_dect("./apple.jpg","/resnet50_prediction.h5")
+    food_dect("apple.jpg","\resnet50_prediction.h5")
