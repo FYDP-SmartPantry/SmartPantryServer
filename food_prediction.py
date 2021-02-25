@@ -84,4 +84,4 @@ def name_rectify(d_result):
 
 
 if __name__ == "__main__":
-    food_dect("apple.jpg","idenprof_061-0.7933.h5")
+    food_dect("apple.jpg","resnet50_weights_tf_dim_ordering_tf_kernels.h5")
