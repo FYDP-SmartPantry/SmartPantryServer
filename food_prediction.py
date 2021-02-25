@@ -9,8 +9,7 @@ def food_dect(predict_image, model_position):
     list_predict_results= []
     prediction = ImagePrediction()
     prediction.setModelTypeAsResNet()
-    execution_path = os.getcwd()
-    prediction.setModelPath(execution_path + model_position)
+    prediction.setModelPath(model_position)
     prediction.loadModel()
     predictions, probabilities = prediction.predictImage(predict_image, result_count=5)
     for eachPrediction, eachProbability in zip(predictions, probabilities):
@@ -85,4 +84,4 @@ def name_rectify(d_result):
 
 
 if __name__ == "__main__":
-    food_dect("apple.jpg","\resnet50_prediction.h5")
+    food_dect("apple.jpg","resnet50_prediction.h5")
