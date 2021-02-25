@@ -81,3 +81,7 @@ def name_rectify(d_result):
             l_r_name.append(r_name)
 
     return if_food, l_r_name
+
+
+if __name__ == "__main__":
+    food_dect("apple.jpg","idenprof_061-0.7933.h5")
