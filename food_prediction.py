@@ -84,4 +84,4 @@ def name_rectify(d_result):
 
 
 if __name__ == "__main__":
-    food_dect("/home/ubuntu/SmartPantryServer/apple.jpg","/home/ubuntu/SmartPantryServer/resnet50_weights_tf_dim_ordering_tf_kernels.h5")
+    food_dect("/home/ubuntu/SmartPantryServer/apple.jpg","./resnet50_weights_tf_dim_ordering_tf_kernels.h5")
