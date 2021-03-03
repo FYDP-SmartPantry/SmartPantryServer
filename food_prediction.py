@@ -83,5 +83,6 @@ def name_rectify(d_result):
     return if_food, l_r_name
 
 
-if __name__ == "__main__":
-    food_dect("/home/ubuntu/SmartPantryServer/apple.jpg","/home/ubuntu/SmartPantryServer/resnet50_weights_tf_dim_ordering_tf_kernels.h5")
+#if __name__ == "__main__":
+#    re = food_dect("apple.jpg","resnet50_weights_tf_dim_ordering_tf_kernels.h5")
+#    print(re)
