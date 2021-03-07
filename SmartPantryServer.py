@@ -13,20 +13,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['jpg','png','jpeg'])
 
 
-#from celery import Celery
-#app.config.update(sudo ufw allow 5000
-#    CELERY_BROKER_URL='redis://localhost:6379',
-#    CELERY_RESULT_BACKEND='redis://localhost:6379'
-#)
-#client = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
-#client.conf.update(app.config)
-
-#@client.task
-#def task1(image_data):
-#    return food_dect(image_data, "resnet50_weights_tf_dim_ordering_tf_kernels.h5")
-#
-
-
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -60,9 +46,9 @@ def upload_file():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             
             image_url = url_for('uploaded_file', filename=filename)
-            re = food_dect(os.path.join(app.config['UPLOAD_FOLDER'], filename),"resnet50_weights_tf_dim_ordering_tf_kernels.h5")
+            re,po = food_dect(os.path.join(app.config['UPLOAD_FOLDER'], filename),"resnet50_weights_tf_dim_ordering_tf_kernels.h5")
             #re = ''
-            return '''<h1>The prediction is: {}</h1><img src="{}" height = "85" width="200"/>'''.format(re, image_url)
+            return '''<h1>The prediction is: {} {}</h1><img src="{}" height = "85" width="200"/>'''.format(re,po, image_url)
 
 
     return '''
