@@ -1,4 +1,4 @@
-from flask import Flask, flash, request, redirect, url_for
+from flask import Flask, flash, request, redirect, url_for, jsonify
 import os
 from werkzeug.utils import secure_filename
 
@@ -47,8 +47,9 @@ def upload_file():
             
             image_url = url_for('uploaded_file', filename=filename)
             re,po = food_dect(os.path.join(app.config['UPLOAD_FOLDER'], filename),"resnet50_weights_tf_dim_ordering_tf_kernels.h5")
-            #re = ''
-            return '''<h1>The prediction is: {} {}</h1><img src="{}" height = "85" width="200"/>'''.format(re,po, image_url)
+            
+            return {"result": {"prediction": re,"probability": po}}
+            #return '''<h1>The prediction is: {} {}</h1><img src="{}" height = "85" width="200"/>'''.format(re,po, image_url)
 
 
     return '''
