@@ -7,6 +7,7 @@ import time
 #把模型的地址和要识别图片的地址递给food_dect, return一个list包含识别出的可能的食物
 def food_dect(predict_image, model_position):
     list_predict_results= []
+    list_predict_confi = []
     prediction = ImagePrediction()
     prediction.setModelTypeAsResNet()
     prediction.setModelPath(model_position)
@@ -18,11 +19,24 @@ def food_dect(predict_image, model_position):
             if_fod, name_fod = name_rectify(eachPrediction)
             if if_fod == True:
                 list_predict_results = list_predict_results + name_fod
+                for f in name_fod:
+                    list_predict_confi.append(eachProbability)
+    
+
     
     if not list_predict_results:
         list_predict_results.append("can not recognize item")
-    list_predict_results = list(dict.fromkeys(list_predict_results))
-    return list_predict_results
+    #ist_predict_results = list(dict.fromkeys(list_predict_results))
+    return_list_name = []
+    return_list_pro=[]
+    for i in range(len(list_predict_results)):
+        if list_predict_results[i] in return_list_name:
+            j = return_list_name.index(list_predict_results[i])
+            return_list_pro[j] = return_list_pro[j]+list_predict_confi[i]
+        else:
+            return_list_name.append(list_predict_results[i])
+            return_list_pro.append(list_predict_confi[i])
+    return return_list_name, return_list_pro
 
     
 
@@ -82,7 +96,3 @@ def name_rectify(d_result):
 
     return if_food, l_r_name
 
-
-#if __name__ == "__main__":
-#    re = food_dect("apple.jpg","resnet50_weights_tf_dim_ordering_tf_kernels.h5")
-#    print(re)
