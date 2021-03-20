@@ -28,15 +28,15 @@ def food_dect(predict_image, model_position):
         list_predict_results.append("can not recognize item")
     #ist_predict_results = list(dict.fromkeys(list_predict_results))
     return_list_name = []
-    return_list_pro=[]
+    #return_list_pro=[]
     for i in range(len(list_predict_results)):
         if list_predict_results[i] in return_list_name:
             j = return_list_name.index(list_predict_results[i])
-            return_list_pro[j] = return_list_pro[j]+list_predict_confi[i]
+            #return_list_pro[j] = return_list_pro[j]+list_predict_confi[i]
         else:
             return_list_name.append(list_predict_results[i])
-            return_list_pro.append(list_predict_confi[i])
-    return return_list_name, return_list_pro
+            #return_list_pro.append(list_predict_confi[i])
+    return return_list_name#, return_list_pro
 
     
 
@@ -96,3 +96,7 @@ def name_rectify(d_result):
 
     return if_food, l_r_name
 
+
+if __name__ == '__main__':
+    re = food_dect("test5.jpg","resnet50_weights_tf_dim_ordering_tf_kernels.h5")
+    print(re)
