@@ -1,11 +1,14 @@
 from flask import Flask, flash, request, redirect, url_for, jsonify
 import os
 from werkzeug.utils import secure_filename
-
+import json
 from flask import send_from_directory
 from food_prediction import food_dect
 from PIL import Image
-
+from pymongo import MongoClient
+from datetime import datetime
+from bson import json_util
+import pymongo
 
 app = Flask(__name__)
 UPLOAD_FOLDER = ''
@@ -46,9 +49,9 @@ def upload_file():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             
             image_url = url_for('uploaded_file', filename=filename)
-            re,po = food_dect(os.path.join(app.config['UPLOAD_FOLDER'], filename),"resnet50_weights_tf_dim_ordering_tf_kernels.h5")
+            re = food_dect(os.path.join(app.config['UPLOAD_FOLDER'], filename),"resnet50_weights_tf_dim_ordering_tf_kernels.h5")
             
-            return {"result": {"prediction": re,"probability": po}}
+            return {"result": {"prediction": re}}#,"probability": po}}
             #return '''<h1>The prediction is: {} {}</h1><img src="{}" height = "85" width="200"/>'''.format(re,po, image_url)
 
 
@@ -61,6 +64,38 @@ def upload_file():
       <input type=submit value=Upload>
     </form>
     '''
+
+
+@app.route('/store', methods=['POST'])
+def store():
+    data = json.loads(request.data)
+    record = {"user_id": data['user_id'],
+              "food_inventory": data['food_inventory'],
+              "waste_inventory": data['waste_inventory'],
+              "timestamp": datetime.now()}
+    with MongoClient() as client:
+        db = client.inventory
+        col =  db.inventory
+        col.insert_one(record)
+    return "Inventory information stored!"
+
+
+@app.route('/retrieve', methods=['POST'])
+def retrieve():
+    data = json.loads(request.data)
+    user_id = data['user_id']
+    with MongoClient() as client:
+        db = client.inventory
+        col =  db.inventory
+        user_cursor = col.find({"user_id": user_id}).sort('timestamp',pymongo.DESCENDING)
+    user_cursor = json.loads(json_util.dumps(user_cursor))
+    result = {"records":[]}
+    for record in user_cursor:
+        record['timestamp']['$date'] = datetime.fromtimestamp(int(record['timestamp']['$date'])/1000).strftime('%Y-%m-%d %H:%M:%S')
+        result['records'].append(record)
+    return result
+
+
 
 
 if __name__ == '__main__':
